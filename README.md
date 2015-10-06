@@ -1,2 +1,2 @@
 # lisp
-Some tidbits and exercises I did while learning lisp.
+Some tidbits and exercises I coded while learning lisp.
