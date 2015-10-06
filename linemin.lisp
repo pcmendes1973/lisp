@@ -17,5 +17,5 @@
          (linemin f xi1 x2 :tol tol :xi1 xi2)
          (linemin f x1 xi2 :tol tol :xi2 xi1))))     
 
-
+;;; Test function - find the minimum of sin2 x in [-1, 1]
 (linemin #'(lambda (x) (expt (sin x) 2)) -1 1)
