@@ -11,3 +11,6 @@
 
 ;;; Calculates length after removing duplicates
 (length (remove-duplicates nums))
+
+;;; Solution in a single line, just for kicks
+(length (remove-duplicates (loop for n from 0 to 9701 collect (expt (+ 2 (floor n 98)) (+ 2 (mod n 99))))))
