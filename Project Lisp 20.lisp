@@ -9,9 +9,6 @@
 
 (defun sum-digits (n)
 "Sums all the digits of integer n"
-(loop for i = n then (car j)
-      for j = (multiple-value-bind (div mod) (floor i 10) (list div mod))
-      until (= i 0)
-      summing (cadr j)))
+  (loop for i = n then (floor i 10) while (> i 0) summing (mod i 10)))
       
 (sum-digits (factorial 100))
