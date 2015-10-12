@@ -1,8 +1,8 @@
-;;;; Solution for problem 20 in Project Euler
-;;;; https://projecteuler.net/problem=20
+;;;; Solution for problem 4 in Project Euler
+;;;; https://projecteuler.net/problem=4
 ;;;; Paulo Mendes, 11-OCT-2015
 
-(defun is-palindrome (n)
+(defun is-palindrome (n) ;; Creates a list with the digits and tests whether it's palindromic
 "Returns n if it's palindrome, 0 otherwise"
   (let ((digits (loop for i = n then (floor i 10) while (> i 0) collect (mod i 10))))
     (loop for i in digits
