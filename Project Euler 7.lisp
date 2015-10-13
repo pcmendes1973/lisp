@@ -4,12 +4,15 @@
 
 (defun nth-prime (prime-to-find)
 "Finds nth prime number"
-  (let* ((primes '(2))         ; primes: Primes found so far
-         (last-prime primes))  ; last-prime: End of the primes list
-  (loop for i from 3 by 2
-        for is-prime = (notany #'(lambda (x) (= (mod i x) 0)) primes) ; Checks if i is prime
-        for n-primes = 2 then (if is-prime (1+ n-primes) n-primes)    ; Updates prime counter
-        if is-prime do (setf (cdr last-prime) (cons i Nil)            ; Appends i to primes list as needed
+  (if (< prime-to-find 3) (1+ prime-to-find))
+  (let* ((primes '(2 3))         ; primes: Primes found so far
+         (last-prime primes))    ; last-prime: End of the primes list
+  (loop for i = 6 then (if (> j 0) (+ i 6) i)
+        and j = -1 then (* j -1)
+        for k = (+ i j)
+        for is-prime = (notany #'(lambda (x) (= (mod k x) 0)) primes) ; Checks if k is prime
+        for n-primes = 3 then (if is-prime (1+ n-primes) n-primes)    ; Updates prime counter if it is
+        if is-prime do (setf (cdr last-prime) (cons k Nil)            ; Appends k to primes list as needed
                              last-prime (cdr last-prime))
         until (= n-primes prime-to-find)
         finally (return i))))
