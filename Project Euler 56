@@ -1,5 +1,5 @@
-;;;; Solution for problem 5 in Project Euler
-;;;; https://projecteuler.net/problem=5
+;;;; Solution for problem 6 in Project Euler
+;;;; https://projecteuler.net/problem=6
 ;;;; Paulo Mendes, 13-OCT-2015
 
 (defparameter n 100)
