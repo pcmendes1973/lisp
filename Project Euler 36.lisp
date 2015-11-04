@@ -22,7 +22,7 @@
     (and (= (car lst) (car (last lst)))
          (is-palindrome? (cdr (butlast lst))))
 
-;; Sums all numbers having paindrome digits both in base 2 and in base 10
+;; Sums all numbers having palindrome digits in both base 2 and base 10
 (loop for i from 10 to 1000000
       if (and (is-palindrome? (digits i))
               (is-palindrome? (to-binary i))) summing i)
