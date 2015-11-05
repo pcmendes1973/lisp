@@ -6,4 +6,4 @@
 (loop for i = 0 then j
       and j = 1 then (+ i j) 
       and k from 1 maximize k
-      until (> j (expt 10 1000)))
+      until (> j (expt 10 999)))
