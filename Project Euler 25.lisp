@@ -1,5 +1,5 @@
-;;;; Solution for problem 48 in Project Euler
-;;;; https://projecteuler.net/problem=48
+;;;; Solution for problem 25 in Project Euler
+;;;; https://projecteuler.net/problem=25
 ;;;; Paulo Mendes, 10-OCT-2015
 
 
