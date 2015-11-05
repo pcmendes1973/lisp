@@ -3,7 +3,7 @@
 ;;;; Paulo Mendes, 10-OCT-2015
 
 ;;; Problem 1
-(loop for i from 1 to 1000
+(loop for i from 1 to 999
     summing (if (or (= (mod i 3) 0) (= (mod i 5) 0)) i 0))
 
 ;;; Problem 2
