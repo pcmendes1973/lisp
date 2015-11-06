@@ -20,6 +20,6 @@
     (values (car digits) (setf digits (cdr digits))))))
 
 (reduce #'*                        ; Gets the requested numbers and multiplies them
-  (loop for i from 1 to 10000000
+  (loop for i from 1 to 1000000
         for j = (funcall champernowne-digit)
-        if (find i '(1 10 100 1000 10000 100000 1000000 10000000)) collect j))
+        if (find i '(1 10 100 1000 10000 100000 1000000)) collect j))
