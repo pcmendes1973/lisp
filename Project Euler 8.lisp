@@ -18,6 +18,6 @@
 (reduce #'max 
     (mapcon #'(lambda (x) (and (nth *subseq-length* x)
                                (loop for i in (subseq x 0 *subseq-length*)
-                                     for j = 1 then (* i j)
+                                     for j = i then (* i j)
                                 finally (return (cons j Nil)))))
               (digits-in-list *thousand-digit-number*)))
