@@ -9,7 +9,7 @@
 "Length of the subsequences of digits to be multiplied")
 
 (defun digits-in-list (n)
-"Returns a list witn each digit of integer n in a separate place"
+"Returns the digits of n ordered in a list"
   (if (> n 0)
       (multiple-value-bind (div mod)
           (floor n 10)
