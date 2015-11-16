@@ -11,3 +11,13 @@
       and j = 1 then (+ i j)
       until (> j 4000000)
       summing (if (evenp j) j 0))
+
+;;; Problem 3
+;;; 12-NOV-2015
+(defun divisors (n)
+"Returns all prime divisors of n in ascending order"
+  (let ((lowest-divisor (loop for i from 2 to (isqrt n)
+                              when (zerop (mod n i)) return i)))
+  (if lowest-divisor
+     (cons lowest-divisor (divisors (/ n lowest-divisor)))
+   (list n))))
