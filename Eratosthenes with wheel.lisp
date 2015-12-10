@@ -1,4 +1,4 @@
-;;;; Sieve of eratosthenes using a factorization wheel
+;;;; Sieve of Eratosthenes using a factorization wheel
 ;;;; Paulo Mendes, 6-DEC-2015
 
 (defun ring (&rest content)
