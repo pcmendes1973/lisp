@@ -27,3 +27,13 @@
        (maplist #'(lambda (x) (if (> (expt (car x) 2) n)
                                 (return-from eratosthenes candidates))
                                (delete-if #'(lambda (y) (zerop (mod y (car x)))) (cdr x))) candidates)))
+                               
+                               
+;;;; Corrected sieve, but without wheel...
+(defun eratosthenes (n)
+"Calculates all primes smaller than n using the sieve of Eratosthenes"
+   (let ((sieve (make-array (1- n) :initial-contents (loop for i from 2 to n collect i))))
+      (loop for i across sieve
+            if i do (loop for j from (expt i 2) to n by i
+                          do (setf (aref sieve (- j 2)) Nil)))
+    (values (remove-if #'null sieve))))
