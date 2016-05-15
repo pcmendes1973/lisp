@@ -30,10 +30,10 @@
         (t
            (let ((split (floor (+ start end) 2)))
               (cond
-            ((< n (aref primes split))
-              (search-primes n start (1- split)))
-              (t
-                (search-primes n split end))))))))
+                ((< n (aref primes split))
+                  (search-primes n start (1- split)))
+                (t
+                  (search-primes n split end))))))))
 
 (loop for j = 2 then (displace) 
       while (< j *max-primes*)
