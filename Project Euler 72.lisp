@@ -4,18 +4,18 @@
 
 (defun smallest-divisor (n)
    (if (zerop (mod n 2)) 2
-     (loop for i from 2 to (isqrt n)
+     (or (loop for i from 3 to (isqrt n) by 2
            if (zerop (mod n i))
-              do (return-from smallest-divisor i)))
-     (values n))
+              do (return-from smallest-divisor i))
+    n)))
 
 (defun factor (n)
    (let ((sf (smallest-divisor n)))
      (if (= sf n) `(,n)
-       (cons sf (factor (/ n sf))))))
+       (cons sf (factor (/ n sf)))))))
 
 (defun totient (n)
-   (let ((table (make-hash-table :size 10)))
+   (let ((table (make-hash-table)))
       (loop for i in (factor n)
             do (setf (gethash i table) 
                  (if (gethash i table)
@@ -25,4 +25,4 @@
          using (hash-value exponent)
          collect (* (1- base) (expt base (1- exponent)))))))
 
-(loop for i from 2 to 1000000 summing (totient n))
+(loop for i from 2 to 1000000 summing (totient i))
