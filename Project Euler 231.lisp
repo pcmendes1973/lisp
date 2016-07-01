@@ -19,6 +19,6 @@
 (defun sum-terms (n p)
 "Sums all divisors of in binom (n, p)"
    (loop for i across (eratosthenes n)
-         summing (* i (+ (factorial-exponent n i)
-                         (- (factorial-exponent p i))
-                         (- (factorial-exponent (- n p) i))))))
+         summing (* i (- (factorial-exponent n i)
+                         (factorial-exponent p i)
+                         (factorial-exponent (- n p) i)))))
