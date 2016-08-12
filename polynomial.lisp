@@ -1,5 +1,5 @@
 ;;;; Functions for calculating polynomials
-;;;; Loosely based in problems from Abelson & Sussman
+;;;; Loosely based on problems from Abelson & Sussman
 ;;;; Paulo Mendes, 22/JUL/2015 - 25/JUL/2015
 
 (defun polyn (lst x)
