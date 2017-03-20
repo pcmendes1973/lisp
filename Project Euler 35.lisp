@@ -1,6 +1,9 @@
 ;;;; Solution for Problem 35 in Project Euler
 ;;;; Paulo Mendes, 19-MAR-2017
 
+;;;; Solution for Problem 35 in Project Euler
+;;;; Paulo Mendes 19-MAR-2017
+
 (defun eratosthenes (n)
 "Calculates all primes smaller than n using the sieve of Eratosthenes"
    (let ((sieve (make-array (1- n) :initial-contents (loop for i from 2 to n collect i))))
@@ -12,10 +15,14 @@
 (defparameter primes (eratosthenes 1000000))
 
 (defun rotations (n)
-"Returns all rotations of 'n' sorted ascendingly."
+"Returns all rotations of 'n' sorted ascendingly. Returns Nil if 'n' > 10
+and contains digits 0, 2, 4, 5, 6 or 8"
   (do ((rot Nil)
        (k 0 (incf k))
        (i n (multiple-value-bind (q r) (floor i 10)
+                 (if (and (> n 10)
+                          (find r '(0 2 4 5 6 8)))
+                     (return Nil))
                  (prog1 q (push r rot)))))
      ((zerop i) (loop repeat k
                       collect (setf rot
@@ -41,6 +48,8 @@
                  (find-in-ordered-array n arr start (1- midpoint)))))))
 
 (loop for i across primes
-      counting (every #'(lambda (x)
-                           (find-in-ordered-array x primes))
-                      (rotations i)))
+      for j = (rotations i)
+      counting (and j
+                    (every #'(lambda (x)
+                               (find-in-ordered-array x primes))
+                           j)))
