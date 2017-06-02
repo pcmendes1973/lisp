@@ -1,4 +1,4 @@
-;;;; Solution for problem 116 in Project Euler
+;;;; Solution for problem 119 in Project Euler
 ;;;; Paulo Mendes, 30-MAY-2017
 
 
