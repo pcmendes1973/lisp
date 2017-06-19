@@ -11,7 +11,7 @@ No actual results are shown so as not to spoil the fun. Please don't use my code
 In addition to Project Euler problems, this repository contains some solutions to miscellaneous problems.
 
 ### License 
-####MIT License
+#### MIT License
 
 Copyright (c) 2017 Paulo Mendes
 
