@@ -1,4 +1,4 @@
-;;;; Solutiom for problem 114 in Project Euler
+;;;; Solution for problem 114 in Project Euler
 ;;;; Paulo Mendes, 10-JUN-2017
 
 (defparameter block-length 50)
