@@ -1,6 +1,6 @@
 # LISP Repository
 
-### Solutions of Project Euler problems
+### Solutions to Project Euler problems
 This repository contains my solutions to [Project Euler](http://www.projecteuler.net) problems. Most solutions are in separate `.lisp` files.
 The filenames says which solution(s) each file contains.
 
