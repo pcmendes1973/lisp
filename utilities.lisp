@@ -13,11 +13,12 @@
 (defmacro do-permutations ((var vec &key append-into (len var ext-len)) &body body)
 "Iterates over all permutations of a sequence. Permutations are calculated using
  Heap's algorithm.
-          var: Variable that points to permutations.
+          var: Variable to which permutations are bound.
           vec: Sequence that is permutated.
   append-into: Optional list into which results yielded by each call to 'body' are appended.
                The results of append-into are available to the code in 'body.'
-         body: Code that is compiled and called for each permutation of 'vec'. 'Return' can be used.
+         body: Form that is evaluated for each permutation of 'vec'. 'Return' can be
+               used to interrupt the iterations and return a value.
    RETURN VALUES
       Returns the final value of append-into if it's used as a key, otherwise returns Nil."
   (let ((n (gensym)))
@@ -42,9 +43,10 @@
 (defmacro do-primes (var n &rest body)
 "Iterates over all primes smaller than n. Primes are calculated using the Sieve of
  Eratosthenes over a bit array.
-   var: Variable that points to permutations.
+   var: Variable to which permutations are bound.
      n: Limit to prime number list.
-  body: Code that is compiled and called for each permutation of 'vec'. 'Return' can be used.
+  body: Form that is evaluated for each permutation of 'vec'. 'Return' can be used
+        to interrupt the iterations and return a value.
     RETURN VALUES
       Nil"
    (let ((i (gensym)))
@@ -57,4 +59,39 @@
                          (loop for k from (- (expt ,var 2) 2) below array-size by ,var
                                do (setf (sbit candidates k) 1))
                          (progn ,@body)))))))
+
+(defmacro do-all-combinations ((var elements &key collect) &body body)
+"Iterates over all combinations of sequence 'elements'. Combinations are
+ tested in reverse binary order.
+     var: Variable to which combinations are bound.
+elements: Sequence from which combinations are drawn.
+    body: Form that is evaluated for each combination. 'Return' can be
+          used to interrupt the iterations and return a value.
+ collect: If true, collects all results of the evaluation of 'body'
+RETURN VALUE:
+ A list with the values collected as 'body' is evaluated if 'collect' is true, Nil otherwise."
+  (let ((i (gensym)) (len (gensym)))
+   `(block Nil
+      (let* ((lst ,elements)
+             (,len (length lst))
+             (digits (make-array ,len :element-type 'bit :initial-element 0)))
+         (labels ((iterate (&optional (pos 0))
+                     (cond
+                       ((> pos ,len)
+                         (loop for i from 0 to ,len
+                               do (setf (aref digits i) 0)))
+                       ((zerop (aref digits pos))
+                         (setf (aref digits pos) 1)
+                         (loop for i from 0 below pos
+                               do (setf (aref digits i) 0)))
+                       (t
+                         (iterate (1+ pos))))
+                         (remove-if #'null (map 'list
+                                                #'(lambda (x y)
+                                                     (unless (zerop y) x))
+                                                lst
+                                                digits))))
+         (loop for ,i from 1 to (1- (expt 2 ,len))
+               for ,var = (iterate)
+                ,(if collect 'collect 'do) (progn ,@body)))))))
       
