@@ -68,7 +68,7 @@ elements: Sequence from which combinations are drawn.
     body: Form that is evaluated for each combination. 'Return' can be
           used to interrupt the iterations and return a value.
  collect: If true, collects all results of the evaluation of 'body'
-RETURN VALUE:
+RETURN VALUES
  A list with the values collected as 'body' is evaluated if 'collect' is true, Nil otherwise."
   (let ((i (gensym)) (len (gensym)))
    `(block Nil
