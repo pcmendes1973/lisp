@@ -40,13 +40,15 @@
        (generate))
       ,@(if append-into `((values ,append-into)))))))
       
-(defmacro do-primes (var n &rest body)
+(defmacro do-primes ((var n &key collect) &rest body)
 "Iterates over all primes smaller than n. Primes are calculated using the Sieve of
  Eratosthenes over a bit array.
-   var: Variable to which permutations are bound.
-     n: Limit to prime number list.
-  body: Form that is evaluated for each permutation of 'vec'. 'Return' can be used
-        to interrupt the iterations and return a value.
+    var: Variable to which permutations are bound.
+      n: Limit to prime number list.
+collect: If true, collects all results of evaluations of 'body' in the order that
+         they are performed.
+   body: Form that is evaluated for each permutation of 'vec'. 'Return' can be used
+         to interrupt the iterations and return a value.
     RETURN VALUES
       Nil"
    (let ((i (gensym)))
@@ -55,7 +57,7 @@
            (candidates (make-array array-size :element-type 'bit :initial-element 0)))
       (loop for ,i across candidates
             for ,var from 2
-            if (zerop ,i) do (progn 
+            when (zerop ,i) ,(if collect 'collect 'do) (progn 
                          (loop for k from (- (expt ,var 2) 2) below array-size by ,var
                                do (setf (sbit candidates k) 1))
                          (progn ,@body)))))))
@@ -67,7 +69,8 @@
 elements: Sequence from which combinations are drawn.
     body: Form that is evaluated for each combination. 'Return' can be
           used to interrupt the iterations and return a value.
- collect: If true, collects all results of the evaluation of 'body'
+ collect: If true, collects all results of evaluations of 'body' in the order that
+          they are performed.
 RETURN VALUES
  A list with the values collected as 'body' is evaluated if 'collect' is true, Nil otherwise."
   (let ((i (gensym)) (len (gensym)))
