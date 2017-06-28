@@ -103,7 +103,9 @@ RETURN VALUES
     var: Variable to which combinations are bound. Each combination is presented in a list of having 'n' elements.
       n: The number of elements in each combinations 
    body: Form that is evaluated for each combination. 'Return' can be
-         used to interrupt the iterations and return a value."
+         used to interrupt the iterations and return a value.
+ RETURN VALUES
+   Nil"
    (loop with vars = (loop for i from 0 to n collect (gensym))
          for j in (butlast (mapcon #'list vars))
          for s = `(let ((,var (mapcar #'car (list ,@(reverse (cdr vars)))))) (progn ,@body))
