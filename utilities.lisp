@@ -97,4 +97,16 @@ RETURN VALUES
          (loop for ,i from 1 to (1- (expt 2 ,len))
                for ,var = (iterate)
                 ,(if collect 'collect 'do) (progn ,@body)))))))
+
+(defmacro do-combinations ((var lst n) &body body)
+"Returns all combinations having 'n' elements of list 'lst' in lexicographic order.
+    var: Variable to which combinations are bound. Each combination is presented in a list of having 'n' elements.
+      n: The number of elements in each combinations 
+   body: Form that is evaluated for each combination. 'Return' can be
+         used to interrupt the iterations and return a value."
+   (loop with vars = (loop for i from 0 to n collect (gensym))
+         for j in (butlast (mapcon #'list vars))
+         for s = `(let ((,var (mapcar #'car (list ,@(reverse (cdr vars)))))) (progn ,@body))
+                 then `(dolist (,(car j) (mapcon #'list (cdr ,(cadr j)))) ,s)
+         finally (return `(dolist (,@(last vars) (mapcon #'list ,lst)) ,s))))
       
