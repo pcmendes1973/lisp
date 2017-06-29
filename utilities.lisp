@@ -111,4 +111,19 @@ RETURN VALUES
          for s = `(let ((,var (mapcar #'car (list ,@(reverse (cdr vars)))))) (progn ,@body))
                  then `(dolist (,(car j) (mapcon #'list (cdr ,(cadr j)))) ,s)
          finally (return `(dolist (,@(last vars) (mapcon #'list ,lst)) ,s))))
+
+(defun gray (n k)
+"Returns the kth item of the n-bit Gray code sequence. Output is a bit array."
+  (assert (< k (expt 2 n)) (n) "k cannot be higher than ~A~%" (1- (expt 2 n)))
+  (cond
+    ((= n 1)
+      (if (zerop k) #*0 #*1))
+    ((>= k (expt 2 (1- n)))
+      (concatenate 'bit-vector #*1 (gray (1- n) (- (expt 2 n) k 1))))
+    (t
+      (concatenate 'bit-vector #*0 (gray (1- n) k)))))
+
+
+
+
       
