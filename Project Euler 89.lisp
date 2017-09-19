@@ -7,6 +7,7 @@
 "Regular expression to parse Roman numerals")
 
 (defun parse-roman-numeral (value)
+"Parses a string containing a Roman numeral and returns an integer."
    (labels ((parse-letters (str)
       (let ((len (length str)) (first-char (char str 0)))
          (cond
@@ -19,7 +20,6 @@
            ((find #\I str) len)))))
      (reduce #'+ (mapcar #'parse-letters
                          (cl-ppcre:all-matches-as-strings *roman-numeral* value)))))
-
 
 (defun roman-numeral-length (num)
 "Returns the length of Roman numeral 'num'"
