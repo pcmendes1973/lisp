@@ -125,16 +125,16 @@ RETURN VALUES
 
 
 (defmacro do-odd-primes ((var max &key (min 3) (action 'do)) &body body)
- "Iterates over all odd primes between min and max. Primes are calculated using the Sieve of
+ "Iterates over all odd primes between min and max (inclusive). Primes are calculated using the Sieve of
  Sundaram over a bit array.
     var: Variable to which odd primes are bound.
     max: Limit to prime number list.
  action: Chooses the keyword used by the internal loop to process results yielded by the form 'body' (see below).
          Possible values are 'summing', 'appending', 'nconc', 'maximizing' and 'minimizing' (i.e., same keywords
-         as in the 'loop' macro.
+         as in the 'loop' macro except 'counting').
    body: Form that is evaluated for each value of 'var'.
     RETURN VALUES
-      Nil"
+      Depends on 'action' and 'body'. These items are processed as in the 'loop' macro."
   (with-gensyms (imin imax n m i j pos buffer)
     `(let* ((,imax ,max) (,imin (max 3 ,min)) (,n (floor (1- ,imax) 2)) (,m (floor (1- ,imin) 2)))
        (let ((,buffer (make-array (list (- ,n ,m -1)) :element-type 'bit :initial-element 0)))
