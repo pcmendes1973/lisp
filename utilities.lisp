@@ -131,7 +131,7 @@ RETURN VALUES
     max: Limit to prime number list.
  action: Chooses the keyword used by the internal loop to process results yielded by the form 'body' (see below).
          Possible values are 'summing', 'appending', 'nconc', 'maximizing' and 'minimizing' (i.e., same keywords
-         as in the 'loop' macro except 'counting').
+         as in the 'loop' macro).
    body: Form that is evaluated for each value of 'var'.
     RETURN VALUES
       Depends on 'action' and 'body'. These items are processed as in the 'loop' macro."
@@ -145,4 +145,48 @@ RETURN VALUES
             finally (return (loop for ,i across ,buffer for ,j from ,m
                                   when (zerop ,i) ,action (let ((,var (1+ (* 2 ,j)))) (progn ,@body)))))))))
 
-      
+(defun expt-mod (a b mod)
+"Returns a ^ b mod 'mod'"
+  (if (zerop b) 1
+    (multiple-value-bind (div rem)
+       (floor b 2)
+         (let ((m (expt-mod a div mod)))
+           (mod (* (mod (expt m 2) mod) (if (zerop rem) 1 a)) mod)))))
+
+(defun circle (&rest lst)
+"Returns a circular list with the elements in 'lst'."
+   (setf (cdr (last lst)) lst))
+
+(defun bezout-coefficients (a b)
+"Returns the Bézout coefficients of a and b and gcd (a,b)"
+  (macrolet ((pcircle (n circle)
+                (let ((c (gensym)))
+                 `(let ((,c ,circle))
+                    (setf (cadr ,c) ,n circle (cdr ,c))))))
+  (do* ((q (floor b a) (floor (cadr r) (car r)))
+        (r (circle b a)
+              (pcircle (- (cadr r) (* q (car r))) r))
+        (s (circle 0 1)                                     
+              (pcircle (- (cadr s) (* q (car s))) s))
+        (tau (circle 1 0)                                   
+              (pcircle (- (cadr tau) (* q (car tau))) tau)))
+    ((zerop (car r)) (values (cadr s) (cadr tau) (cadr r))))))
+
+
+(defun modular-inverse (a b)
+"Returns the modular inverse of a mod b. If a and b are not coprime or no
+ inverse exists, return Nil"
+  (macrolet ((pcircle (n circle)
+                (let ((c (gensym)))
+                 `(let ((,c ,circle))
+                    (setf (cadr ,c) ,n circle (cdr ,c))))))
+  (do* ((q (floor b a) (floor (cadr r) (car r)))
+        (r (circle b a)
+              (pcircle (- (cadr r) (* q (car r))) r))
+        (s (circle 0 1)                                     
+              (pcircle (- (cadr s) (* q (car s))) s)))
+    ((zerop (car r)) (cond
+                        ((> (cadr r) 1) Nil)
+                        ((zerop (cadr s)) Nil)
+                        ((< (cadr s) 0) (+ b (cadr s)))
+                        (t (cadr s)))))))
