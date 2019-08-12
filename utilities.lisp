@@ -190,3 +190,21 @@ RETURN VALUES
                         ((zerop (cadr s)) Nil)
                         ((< (cadr s) 0) (+ b (cadr s)))
                         (t (cadr s)))))))
+
+(defmacro operatorf (operand1 operand2 operator)
+  "Executes operand1 <- operand1 <operator> operand2 and returns operand1"
+  (let* ((sym (gensym)) (sym operand1))
+    `(setq ,sym (,operator ,sym ,operand2))))
+
+(defmacro do-all-sequences ((var lst op init) &body body)
+"Iterate over all combinations of elements in 'lst'. In each iteration,
+ 'var' is set to init <op> lst1 <op> lst1 <op> lst3, where 'init' is the initial
+ element, lst(n) is an element in 'lst', and 'op' is an arbitrary operator.
+ Returns Nil"
+  (let ((n (gensym)) (l (gensym)))
+   `(labels ((rep (,l ,n)
+               (if ,l (progn
+                        (rep (cdr ,l) (,op ,n (car ,l)))
+                        (rep (cdr ,l) ,n))
+                   (let ((,var ,n)) (progn ,@body)))))
+      (rep ,lst ,init))))
