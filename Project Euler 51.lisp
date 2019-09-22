@@ -28,6 +28,6 @@
                             when (loop repeat 10 for j from (+ ,@output-list) by ,increment
                                        for pr = (primep j)
                                        counting pr into n when pr minimizing j into min
-                                       when (= n 8) do (return min)) collect it)
+                                       when (and (= n 8) (> min ,(expt 10 (1- ,n)))) do (return min)) collect it)
                    then (if (find i ,zeros) code `(loop repeat 10 for ,(nth i symbols) from 0 by ,(expt 10 i) nconc ,code))
           finally (return (eval code)))))
